@@ -8,11 +8,43 @@ console.log("--- Rock, Paper, Scissors ---");
 console.log("");
 
 // Declare variables
+const buttons = document.querySelectorAll('button');
 const moves = ['ROCK', 'PAPER', 'SCISSORS'];
+let computerSelection = "";
 let playerSelection = "";
 let playerScore = 0;
 let CPUscore = 0;
 let draws = 0;
+let lastResult = 'Choose your first weapon!';
+
+const sbYou = document.querySelector('#you');
+let sbPlayer = document.createElement('div');
+sbPlayer.textContent = 'You: ' + playerScore;
+sbYou.appendChild(sbPlayer);
+
+const sbDraws = document.querySelector('#draws');
+let sbDrawsCon = document.createElement('div');
+sbDrawsCon.textContent = 'Draws: ' + draws;
+sbDraws.appendChild(sbDrawsCon);
+
+const sbCPU = document.querySelector('#CPU');
+let sbCPUcon = document.createElement('div');
+sbCPUcon.textContent = 'CPU: ' + CPUscore;
+sbCPU.appendChild(sbCPUcon);
+
+const resultDiv = document.querySelector('#result');
+let resultCon = document.createElement('div');
+resultCon.textContent = lastResult;
+resultDiv.appendChild(resultCon);
+
+// Button event listener for player move select
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = button.id;
+        computerSelection = computerPlay();
+        playRound(playerSelection, computerSelection);
+    });
+});
 
 // Function to randomly select the CPU move from the list of moves
 function computerPlay() {
@@ -21,45 +53,22 @@ function computerPlay() {
 
 // Function to play a single round, add to scores and return a message
 function playRound(playerSelection, computerSelection) {
+    resultDiv.textContent = 'You '+ playerSelection+ ' | '+ computerSelection+ ' CPU';
+    console.log('You ', playerSelection, ' | ', computerSelection, ' CPU');
     if (playerSelection === computerSelection) {
         draws++;
-        return "It's a draw!";
+        sbDraws.textContent = 'Draws: ' + draws;
+        resultDiv.textContent = "It's a draw!";
+
     } else {
         if ((playerSelection === 'ROCK' && computerSelection === 'SCISSORS') || (playerSelection === 'PAPER' && computerSelection === 'ROCK') || (playerSelection === 'SCISSORS' && computerSelection === 'PAPER')) {
             playerScore++;
-            return "You win!";
+            sbPlayer.textContent = 'You: ' + playerScore;
+            resultDiv.textContent = "You win!";
         } else {
             CPUscore++;
-            return "CPU wins...";
+            sbCPU.textContent = 'CPU: ' + CPUscore;
+            resultDiv.textContent = "CPU wins...";
         }
     }    
 }
-
-function game() {
-    for (let i = 0; i < 5; i++) {
-        playerSelection = "";
-
-        while ((playerSelection !== '1') && (playerSelection !== '2') && (playerSelection !== '3')) {
-            playerSelection = prompt("Enter 1 for Rock, 2 for Paper, 3 for Scissors:");
-        }
-
-        playerSelection = moves[playerSelection -1];
-        const computerSelection = computerPlay();
-
-        console.log('You play: ', playerSelection);
-        console.log('CPU plays: ', computerSelection);
-
-        console.log(playRound(playerSelection, computerSelection));
-        console.log("Score: CPU - ", CPUscore, " You - ", playerScore);
-        console.log("");
-    }
-}
-
-game();
-
-if (playerScore > CPUscore) {
-    console.log("You win the game with ", playerScore, " points!");
-} else {
-    console.log("CPU wins the game :(");
-}
-console.log(draws, ' draws')
