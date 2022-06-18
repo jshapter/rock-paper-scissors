@@ -15,27 +15,20 @@ let playerSelection = "";
 let playerScore = 0;
 let CPUscore = 0;
 let draws = 0;
-let lastResult = 'Choose your first weapon!';
+let lastResult = '';
+let msg = 'Choose your first weapon!';
 
 const sbYou = document.querySelector('#you');
-let sbPlayer = document.createElement('div');
-sbPlayer.textContent = 'You: ' + playerScore;
-sbYou.appendChild(sbPlayer);
+sbYou.textContent = 'You: ' + playerScore;
 
-const sbDraws = document.querySelector('#draws');
-let sbDrawsCon = document.createElement('div');
-sbDrawsCon.textContent = 'Draws: ' + draws;
-sbDraws.appendChild(sbDrawsCon);
+const msgDiv = document.querySelector('#msg');
+msgDiv.textContent = msg;
 
 const sbCPU = document.querySelector('#CPU');
-let sbCPUcon = document.createElement('div');
-sbCPUcon.textContent = 'CPU: ' + CPUscore;
-sbCPU.appendChild(sbCPUcon);
+sbCPU.textContent = 'CPU: ' + CPUscore;
 
 const resultDiv = document.querySelector('#result');
-let resultCon = document.createElement('div');
-resultCon.textContent = lastResult;
-resultDiv.appendChild(resultCon);
+resultDiv.textContent = lastResult;
 
 // Button event listener for player move select
 buttons.forEach((button) => {
@@ -53,17 +46,16 @@ function computerPlay() {
 
 // Function to play a single round, add to scores and return a message
 function playRound(playerSelection, computerSelection) {
-    resultDiv.textContent = 'You '+ playerSelection+ ' | '+ computerSelection+ ' CPU';
-    console.log('You ', playerSelection, ' | ', computerSelection, ' CPU');
+    msgDiv.textContent = 'You '+ playerSelection+ ' | '+ computerSelection+ ' CPU';
     if (playerSelection === computerSelection) {
         draws++;
-        sbDraws.textContent = 'Draws: ' + draws;
+//        sbDraws.textContent = 'Draws: ' + draws;
         resultDiv.textContent = "It's a draw!";
 
     } else {
         if ((playerSelection === 'ROCK' && computerSelection === 'SCISSORS') || (playerSelection === 'PAPER' && computerSelection === 'ROCK') || (playerSelection === 'SCISSORS' && computerSelection === 'PAPER')) {
             playerScore++;
-            sbPlayer.textContent = 'You: ' + playerScore;
+            sbYou.textContent = 'You: ' + playerScore;
             resultDiv.textContent = "You win!";
         } else {
             CPUscore++;
